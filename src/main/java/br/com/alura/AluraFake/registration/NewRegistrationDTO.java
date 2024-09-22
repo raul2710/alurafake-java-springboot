@@ -1,5 +1,6 @@
 package br.com.alura.AluraFake.registration;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,5 +30,9 @@ public class NewRegistrationDTO {
 
     public void setStudentEmail(String studentEmail) {
         this.studentEmail = studentEmail;
+    }
+
+    public Registration toModel(){
+        return new Registration(courseCode, studentEmail);
     }
 }

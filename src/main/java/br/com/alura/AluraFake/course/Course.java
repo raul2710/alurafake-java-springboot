@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
-
 @Table(name = "Course")
 @Entity(name = "Course")
 public class Course {

@@ -36,7 +36,7 @@ public class CourseController {
     @Transactional
     public ResponseEntity createCourse(@PathVariable("code") String courseCode) {
         // Questão 2 aqui
-        Course courseToUpdate = courseRepository.getReferenceById(Integer.parseInt(courseCode));
+        Course courseToUpdate = courseRepository.getReferenceById(Long.parseLong(courseCode));
 
         courseToUpdate.updateStatus("INACTIVE");
 

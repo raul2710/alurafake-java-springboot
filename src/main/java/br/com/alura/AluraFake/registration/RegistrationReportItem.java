@@ -1,6 +1,10 @@
 package br.com.alura.AluraFake.registration;
 
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
+
 public class RegistrationReportItem {
+
     private final String courseName;
     private final String courseCode;
     private final String instructorName;
