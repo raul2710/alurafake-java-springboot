@@ -9,4 +9,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query("SELECT c.status FROM Course c WHERE c.code = :courseCode")
     Status isActive(String courseCode);
+
+    @Query("SELECT c FROM Course c WHERE c.code = :courseCode")
+    Course getReferenceByCode(String courseCode);
 }

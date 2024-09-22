@@ -1,7 +1,10 @@
 package br.com.alura.AluraFake.registration;
 
+import br.com.alura.AluraFake.course.Course;
 import br.com.alura.AluraFake.course.CourseRepository;
 import br.com.alura.AluraFake.course.Status;
+import br.com.alura.AluraFake.user.User;
+import br.com.alura.AluraFake.user.UserRepository;
 import br.com.alura.AluraFake.util.ErrorItemDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +15,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class RegistrationController {
 
     @Autowired
-    private RegistrationRepository resgistrationRepository;
-    @Autowired
     private CourseRepository courseRepository;
     @Autowired
-    private RegistrationRepository registrationRepository;
+    private UserRepository userRepository;
 
-    @PostMapping("/registration/new")
     @Transactional
+    @PostMapping("/registration/new")
     public ResponseEntity createCourse(@Valid @RequestBody NewRegistrationDTO newRegistration) {
         //Questão 3 aqui
-        if (courseRepository.existsByCode(newRegistration.getCourseCode())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("sourseCode", "Código não encontrado no sistema"));
-        }
-        else if (courseRepository.isActive(newRegistration.getCourseCode()) == Status.INACTIVE){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("sourseCode", "Curso inativo no sistema"));
-        }
+        User user = userRepository.getReferenceByEmail(newRegistration.getStudentEmail());
+        Course course = courseRepository.getReferenceByCode(newRegistration.getCourseCode());
 
-//        registrationRepository.save(newRegistration.toModel());
+        if(course==null) return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorItemDTO("courseCode", "Código de curso não encontrado no sistema"));
+
+        user.getCourses().add(course);
+        course.getUsers().add(user);
+
+        userRepository.save(user);
+        courseRepository.save(course);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

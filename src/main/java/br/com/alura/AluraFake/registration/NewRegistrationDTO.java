@@ -32,7 +32,4 @@ public class NewRegistrationDTO {
         this.studentEmail = studentEmail;
     }
 
-    public Registration toModel(){
-        return new Registration(courseCode, studentEmail);
-    }
 }
