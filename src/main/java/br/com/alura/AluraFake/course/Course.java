@@ -2,8 +2,13 @@ package br.com.alura.AluraFake.course;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 
 @Table(name = "Course")
 @Entity(name = "Course")
@@ -17,7 +22,7 @@ public class Course {
     private String emailInstructor;
     private String description;
     private int hoursToComplete;
-    private Timestamp inactiveDateTime;
+    private LocalDateTime inactiveDateTime = null;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -25,13 +30,23 @@ public class Course {
     public Course() {
     }
 
-    public Course(@Valid NewCourseDTO newCourse) {
-        this.code = newCourse.getCode();
-        this.title = newCourse.getTitle();
-        this.emailInstructor = newCourse.getEmailInstructor();
-        this.instructor = newCourse.getInstructor();
-        this.description = newCourse.getDescription();
-        this.hoursToComplete = newCourse.getHoursToComplete();
-        this.status = Status.ACTIVE;
+    public Course(String title, String code, String instructor, String emailInstructor, String description, int hoursToComplete, Status status) {
+        this.title = title;
+        this.code = code;
+        this.instructor = instructor;
+        this.emailInstructor = emailInstructor;
+        this.description = description;
+        this.hoursToComplete = hoursToComplete;
+        this.status = status;
+    }
+
+    public void updateStatus(String status) {
+        if (this.status == Status.ACTIVE) {
+            this.status = Status.INACTIVE;
+            this.inactiveDateTime = LocalDateTime.now();
+        }
+        else {
+            this.status = Status.ACTIVE;
+        }
     }
 }

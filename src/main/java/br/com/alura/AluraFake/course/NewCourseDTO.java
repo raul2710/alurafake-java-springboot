@@ -1,9 +1,12 @@
 package br.com.alura.AluraFake.course;
 
+import br.com.alura.AluraFake.user.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+
+import static br.com.alura.AluraFake.course.Status.ACTIVE;
 
 public class NewCourseDTO {
 
@@ -26,45 +29,30 @@ public class NewCourseDTO {
     @NotBlank
     private String instructor;
 
+    @Deprecated
     public NewCourseDTO() {}
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getCode() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public int getHoursToComplete() {
         return hoursToComplete;
     }
 
-    public void setHoursToComplete(int hoursToComplete) {
-        this.hoursToComplete = hoursToComplete;
-    }
-
     public String getEmailInstructor() {
         return emailInstructor;
     }
 
-    public void setEmailInstructor(String emailInstructor) {
-        this.emailInstructor = emailInstructor;
-    }
-
     public String getDescription() { return description; }
-
-    public void setDescription(String description) { this.description = description; }
 
     public String getInstructor() { return instructor; }
 
-    public void setInstructor(String instructor) { this.instructor = instructor; }
+    public Course toModel() {
+            return new Course(title, code, instructor, emailInstructor, description, hoursToComplete, ACTIVE);
+    }
 }
